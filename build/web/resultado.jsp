@@ -12,37 +12,48 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        
-        <center>
-            <h3><%=request.getAttribute("Message")%></h3>
+    <center><h1>Resultado <%=request.getAttribute("Message")%></h1></center>
+
+    <div style="margin: 0 auto;width:800px;height:500px;border:3px solid #00FFFF;border-radius: 10px 10px 10px 10px;
+         -moz-border-radius: 10px 10px 10px 10px;
+         -webkit-border-radius: 10px 10px 10px 10px;
+         border: 0px solid #000000;">
+        <div style="width:100%;height:10%;background-color: #00FFFF;border-radius: 10px 10px 0px 0px;
+             -moz-border-radius: 10px 10px 0px 0px;
+             -webkit-border-radius: 10px 10px 0px 0px;
+             border: 0px solid #000000;"><center><h2><%=request.getAttribute("first_name")%></h2></center></div>
+        <div style="float:left;width:35%;height:90%;border:3px solid #00FFFF;border-radius: 0px 0px 10px 10px;
+             -moz-border-radius: 0px 0px 10px 10px;
+             -webkit-border-radius: 0px 0px 10px 10px;
+                 border: 0px solid #000000;">
+                   <center>
+                       <h3><img src="<%=request.getAttribute("photo")%>" style="border-radius:50%;height:30;width:40%;margin-top:30%;"/></h3>
         </center>
-    
-        <center>
-            <h3><%=request.getAttribute("first_name")%></h3>
-        </center>
-        
-        <center>
-            <h3><%=request.getAttribute("last_name")%></h3>
-        </center>
-        
-        <center>
-            <h3><%=request.getAttribute("edad")%></h3>
-        </center>
-        
-        <center>
-            <h3><%=request.getAttribute("posicion")%></h3>
-        </center>
-        
-        <center>
-            <h3><%=request.getAttribute("equipo")%></h3>
-        </center>
-        
-        <center>
-            <h3><img src="<%=request.getAttribute("photo")%>"/></h3>
-        </center>
-        
-       
-        
-    </body>
+        </div>
+        <div style="float:right;width:65%;height:90%;border:3px solid #00FFFF;border-radius: 0px 0px 10px 10px;
+             -moz-border-radius: 0px 0px 10px 10px;
+             -webkit-border-radius: 0px 0px 10px 10px;
+             border: 0px solid #000000;">
+            <center>
+                <h3><%=request.getAttribute("first_name")%></h3>
+            </center>
+            <hr/>
+            <center>
+                <h3><%=request.getAttribute("last_name")%></h3>
+            </center>
+            <hr/>
+            <center>
+                <h3><%=request.getAttribute("edad")%></h3>
+            </center>
+            <hr/>
+            <center>
+                <h3><%=request.getAttribute("posicion")%></h3>
+            </center>
+            <hr/>
+            <center>
+                <h3><%=request.getAttribute("equipo")%></h3>
+            </center></div>
+    </div>
+
+</body>
 </html>
