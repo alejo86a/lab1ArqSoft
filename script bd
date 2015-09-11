@@ -1,0 +1,11 @@
+CREATE TABLE jugador (
+    contact_id int NOT NULL GENERATED ALWAYS AS IDENTITY
+        (START WITH 1, INCREMENT BY 1),
+    first_name CHAR (45) default null,
+    LAST_NAME CHAR (45) DEFAULT NULL,
+    edad int DEFAULT NULL,
+    posicion CHAR (45) DEFAULT NULL,
+    equipo CHAR (45) DEFAULT NULL,
+    photo blob,
+    PRIMARY KEY (contact_id)
+)
