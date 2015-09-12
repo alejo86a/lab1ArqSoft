@@ -17,6 +17,24 @@ public class JugadorDTO {
     private String posicion;
     private String equipo;
 
+    public String getFechaNam() {
+        return FechaNam;
+    }
+
+    public void setFechaNam(String FechaNam) {
+        this.FechaNam = FechaNam;
+    }
+
+    public String getNacionalidad() {
+        return Nacionalidad;
+    }
+
+    public void setNacionalidad(String Nacionalidad) {
+        this.Nacionalidad = Nacionalidad;
+    }
+    private String FechaNam;
+    private String Nacionalidad;
+
     public int getContact_id() {
         return contact_id;
     }

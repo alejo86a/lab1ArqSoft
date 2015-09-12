@@ -49,6 +49,14 @@
             <center>
                 <h3><%=request.getAttribute("posicion")%></h3>
             </center>
+            <hr/>            
+            <center>
+                <h3><%=request.getAttribute("fecha_nacimiento")%></h3>
+            </center>
+            <hr/>            
+            <center>
+                <h3><%=request.getAttribute("nacionalidad")%></h3>
+            </center>
             <hr/>
             <center>
                 <h3><%=request.getAttribute("equipo")%></h3>

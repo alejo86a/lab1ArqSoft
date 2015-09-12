@@ -49,6 +49,8 @@ public class InsertarServlet extends HttpServlet {
         jug.setEdad(Integer.parseInt(request.getParameter("edad")));
         jug.setPosicion(request.getParameter("posicion"));
         jug.setEquipo(request.getParameter("equipo"));
+        jug.setFechaNam(request.getParameter("fechaNacimiento"));
+        jug.setNacionalidad(request.getParameter("nacionalidad"));
         
         //Defino el input stream para el archivo que subire
         InputStream inputStream=null;
@@ -76,7 +78,7 @@ public class InsertarServlet extends HttpServlet {
             conn=DriverManager.getConnection(dbURL, dbUser, dbPass);
             
             //construyo el estamento SQL
-            String sql  ="INSERT INTO jugador(first_name,last_name,edad,posicion,equipo,photo) VALUES(?,?,?,?,?,?)";
+            String sql  ="INSERT INTO jugador(first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo) VALUES(?,?,?,?,?,?,?,?)";
             //Crei el prepareStatement SQL para enlazarlo con el POJO
             PreparedStatement statement=conn.prepareStatement(sql);
             
@@ -85,8 +87,10 @@ public class InsertarServlet extends HttpServlet {
             statement.setInt(3, jug.getEdad());
             statement.setString(4, jug.getPosicion());
             statement.setString(5, jug.getEquipo());
+            statement.setString(6, jug.getFechaNam());
+            statement.setString(7, jug.getNacionalidad());
             if(inputStream!=null){
-                statement.setBlob(6, inputStream);
+                statement.setBlob(8, inputStream);
             }
             //enviar el stamento para actualizar la BD  
             int row = statement.executeUpdate();

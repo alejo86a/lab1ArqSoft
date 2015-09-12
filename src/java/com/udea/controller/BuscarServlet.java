@@ -57,6 +57,7 @@ public class BuscarServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("lastName");
 
         Blob blob = null;
         byte[] data = null;
@@ -76,13 +77,32 @@ public class BuscarServlet extends HttpServlet {
             //conecto a la BD
             DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
             conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+            PreparedStatement statement = null;
 
-            //construyo el estamento SQL
-            String sql = "SELECT  first_name,last_name,edad,posicion,equipo,photo FROM jugador WHERE first_name=?";
-            //Crei el prepareStatement SQL para enlazarlo con el POJO
-            PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setString(1, nombre);
+            if (nombre != "" && apellido != "") {
+                //construyo el estamento SQL
+                String sql = "SELECT  first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo FROM jugador WHERE first_name=? AND last_name=?";
+                //Crei el prepareStatement SQL para enlazarlo con el POJO
+                statement = conn.prepareStatement(sql);
+
+                statement.setString(1, nombre);
+                statement.setString(2, apellido);
+            } else if (nombre == "") {
+                //construyo el estamento SQL
+                String sql = "SELECT  first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo FROM jugador WHERE last_name=?";
+                //Crei el prepareStatement SQL para enlazarlo con el POJO
+                statement = conn.prepareStatement(sql);
+
+                statement.setString(1, apellido);
+            } else {
+                //construyo el estamento SQL
+                String sql = "SELECT  first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo FROM jugador WHERE first_name=?";
+                //Crei el prepareStatement SQL para enlazarlo con el POJO
+                statement = conn.prepareStatement(sql);
+
+                statement.setString(1, nombre);
+            }
 
             //enviar el stamento para actualizar la BD  
             ResultSet rs = statement.executeQuery();
@@ -92,11 +112,12 @@ public class BuscarServlet extends HttpServlet {
                 jug.setEdad(rs.getInt("edad"));
                 jug.setPosicion(rs.getString("posicion"));
                 jug.setEquipo(rs.getString("equipo"));
+                jug.setFechaNam(rs.getString("fecha_nacimiento"));
+                jug.setNacionalidad(rs.getString("nacionalidad"));
 
                 blob = rs.getBlob("photo");
                 data = blob.getBytes(1, (int) blob.length());
 
-                ServletContext context = this.getServletContext();
                 String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
                 request.setAttribute("nombreFoto", nombreFoto);
                 String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);
@@ -104,7 +125,7 @@ public class BuscarServlet extends HttpServlet {
                 FileOutputStream salidaArchivo = new FileOutputStream(fullPath);
                 salidaArchivo.write(data);
                 salidaArchivo.close();
-                message ="";
+                message = "";
 
             }
         } catch (Exception e) {
@@ -125,29 +146,8 @@ public class BuscarServlet extends HttpServlet {
             request.setAttribute("edad", jug.getEdad());
             request.setAttribute("posicion", jug.getPosicion());
             request.setAttribute("equipo", jug.getEquipo());
-            System.out.println("hola");
-//            if (blob!=null){
-//                try {
-//                    byte[] data = blob.getBytes(1, (int)blob.length());
-//                    BufferedImage img = null;
-//                    try{
-//                        img = ImageIO.read(new ByteArrayInputStream(data));
-//                        request.setAttribute("photo",img);
-//                    }catch(Exception e){
-//                        request.setAttribute("photo",blob);
-//                        e.printStackTrace();
-//                    }
-//                    
-//                } catch (SQLException ex) {
-//                    request.setAttribute("photo",blob);
-//                    Logger.getLogger(BuscarServlet.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                
-//            }else{
-//                request.setAttribute("photo",blob);
-//            }
-
-            request.setAttribute("photo", data);
+            request.setAttribute("fecha_nacimiento", jug.getFechaNam());
+            request.setAttribute("nacionalidad", jug.getNacionalidad());
             request.setAttribute("Message", message);
             //reenvio a la vista jsp del mensaje
             getServletContext().getRequestDispatcher("/resultado.jsp").forward(request, response);
