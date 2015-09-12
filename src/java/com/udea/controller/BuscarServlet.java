@@ -8,6 +8,7 @@ package com.udea.controller;
 import com.udea.modelo.JugadorDTO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +21,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -32,15 +34,15 @@ import org.apache.derby.client.am.ByteArrayCombinerStream;
  *
  * @author docen12
  */
-@MultipartConfig(maxFileSize=16177215)
+@MultipartConfig(maxFileSize = 16177215)
 public class BuscarServlet extends HttpServlet {
-    
+
     //Variables de conexion a la BD
-    private String dbURL="jdbc:derby://localhost:1527/lab1";
-    private String dbUser="root";
-    private String dbPass="root";
+    private String dbURL = "jdbc:derby://localhost:1527/lab1";
+    private String dbUser = "root";
+    private String dbPass = "root";
     //instanciar el objeto JugadorDTO
-    JugadorDTO jug= new JugadorDTO();
+    JugadorDTO jug = new JugadorDTO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,67 +57,74 @@ public class BuscarServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nombre = request.getParameter("nombre");
-        
-        Blob blob=null;
+
+        Blob blob = null;
         byte[] data = null;
-        
+
         //Defino el input stream para el archivo que subire
         OutputStream outputStream = null;
         //InputStream inputStream=null;
-        
+
         //Obtengo la parte del archivo a cargar en la peticion (multipart)
-        Part filePart=request.getPart("photo");
-       
-        
+        Part filePart = request.getPart("photo");
+
         //configuro la conexion a la BD con JDBC
         Connection conn = null;//objeto para conectar con la BD
-        String message=null; //mensaje de salida
-        
+        String message = null; //mensaje de salida
+
         try {
             //conecto a la BD
             DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
-            conn=DriverManager.getConnection(dbURL, dbUser, dbPass);
-            
+            conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
             //construyo el estamento SQL
-            String sql  ="SELECT  first_name,last_name,edad,posicion,equipo,photo FROM jugador WHERE first_name=?";
+            String sql = "SELECT  first_name,last_name,edad,posicion,equipo,photo FROM jugador WHERE first_name=?";
             //Crei el prepareStatement SQL para enlazarlo con el POJO
-            PreparedStatement statement=conn.prepareStatement(sql);
-            
+            PreparedStatement statement = conn.prepareStatement(sql);
+
             statement.setString(1, nombre);
-            
-         
-           
+
             //enviar el stamento para actualizar la BD  
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                jug.setFirstName(rs.getString("first_name")); 
+            while (rs.next()) {
+                jug.setFirstName(rs.getString("first_name"));
                 jug.setLastName(rs.getString("last_name"));
                 jug.setEdad(rs.getInt("edad"));
                 jug.setPosicion(rs.getString("posicion"));
                 jug.setEquipo(rs.getString("equipo"));
-           
+
                 blob = rs.getBlob("photo");
-                data = blob.getBytes(1, (int)blob.length());
-                
+                data = blob.getBytes(1, (int) blob.length());
+
+                ServletContext context = this.getServletContext();
+                String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
+                request.setAttribute("nombreFoto", nombreFoto);
+                String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);
+                //byte[] archivo=rs.getBytes("photo");
+                FileOutputStream salidaArchivo = new FileOutputStream(fullPath);
+                salidaArchivo.write(data);
+                salidaArchivo.close();
+                message ="";
+
             }
         } catch (Exception e) {
-            message ="ERROR: " +e.getMessage();
+            message = "ERROR: " + e.getMessage();
             e.printStackTrace();
-        }finally{
-            if (conn!=null){
-                try{
+        } finally {
+            if (conn != null) {
+                try {
                     conn.close();
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
             //coloco elmensaje en el ambito del request
-            request.setAttribute("first_name",jug.getFirstName());
-            request.setAttribute("last_name",jug.getLastName());
+            request.setAttribute("first_name", jug.getFirstName());
+            request.setAttribute("last_name", jug.getLastName());
             request.setAttribute("edad", jug.getEdad());
-            request.setAttribute("posicion",jug.getPosicion() );
-            request.setAttribute("equipo",jug.getEquipo() );
+            request.setAttribute("posicion", jug.getPosicion());
+            request.setAttribute("equipo", jug.getEquipo());
             System.out.println("hola");
 //            if (blob!=null){
 //                try {
@@ -137,13 +146,13 @@ public class BuscarServlet extends HttpServlet {
 //            }else{
 //                request.setAttribute("photo",blob);
 //            }
-            
-            request.setAttribute("photo",data);
+
+            request.setAttribute("photo", data);
             request.setAttribute("Message", message);
             //reenvio a la vista jsp del mensaje
             getServletContext().getRequestDispatcher("/resultado.jsp").forward(request, response);
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
