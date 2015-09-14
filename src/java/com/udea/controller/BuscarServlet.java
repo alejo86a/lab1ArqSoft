@@ -83,7 +83,7 @@ public class BuscarServlet extends HttpServlet {
             PreparedStatement statement = null;
 
 
-            if (nombre.length()>1&& apellido.length()>1) {
+            if (nombre.length()>=1&& apellido.length()>=1) {
                 //construyo el estamento SQL
                 String sql = "SELECT  first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo FROM jugador WHERE first_name=? AND last_name=?";
                 //Crei el prepareStatement SQL para enlazarlo con el POJO
@@ -93,7 +93,7 @@ public class BuscarServlet extends HttpServlet {
                 statement.setString(2, apellido);
                 System.out.println("entra al if nombre y apellidos no nulos");
                 
-            } else if (apellido.length()>1) {
+            } else if (apellido.length()>=1) {
                 //construyo el estamento SQL
                 String sql = "SELECT  first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo FROM jugador WHERE last_name=?";
                 //Crei el prepareStatement SQL para enlazarlo con el POJO
@@ -102,13 +102,18 @@ public class BuscarServlet extends HttpServlet {
                 statement.setString(1, apellido);
                 System.out.println("entro al else apellido nulo");
                 
-            } else {
+            } else if(nombre.length()>=1) {
                 //construyo el estamento SQL
                 String sql = "SELECT  first_name,last_name,edad,posicion,equipo,fecha_nacimiento,nacionalidad,photo FROM jugador WHERE first_name=?";
                 //Crei el prepareStatement SQL para enlazarlo con el POJO
                 statement = conn.prepareStatement(sql);
                 statement.setString(1, nombre);
                 System.out.println("entro al else nombre nulo");
+            }else{
+                System.out.println("Entro Al Else");
+              String mensaje="Ingrese todos los datos";
+              request.setAttribute("Message", mensaje);
+              getServletContext().getRequestDispatcher("/buscar.jsp").forward(request, response);
             }
 
             //enviar el stamento para actualizar la BD  
@@ -127,7 +132,7 @@ public class BuscarServlet extends HttpServlet {
 
                 String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
                 request.setAttribute("nombreFoto", nombreFoto);
-                String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);
+                String fullPath = getServletContext().getRealPath("'/'"+"WEB-INF").replace("'/'"+"WEB-INF", "/" + nombreFoto);
                 //byte[] archivo=rs.getBytes("photo");
                 FileOutputStream salidaArchivo = new FileOutputStream(fullPath);
                 salidaArchivo.write(data);

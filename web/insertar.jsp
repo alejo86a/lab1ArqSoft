@@ -59,17 +59,17 @@
                         <select name="posicion" required="true" class="form-control" placeholder="Posición">
                             <option selected>--Elije una Posición</option>
                             <option value="portero">Portero</option>
-                            <option value="def_izquiedo">Defensa Izquierdo</option>
-                            <option value="def_central">Defensa Central</option>
-                            <option value="def_derecho">Defensa Derecho</option>
-                            <option value="lat_izquierdo">Lateral Izquierdo</option>
-                            <option value="lat_derecho">Lateral Derecho</option>
-                            <option value="med_central">Mediocampista Central</option>
-                            <option value="med_ofensivo">Mediocampista Ofensivo</option>
-                            <option value="med_creacion">Mediocampista Creación</option>
-                            <option value="delantero_centro">Deltantero Centro</option>
-                            <option value="delantero_izq">Deltantero Izquierdo</option>
-                            <option value="delantero_der">Deltantero Derecho</option>
+                            <option value="Defensa Izquierdo">Defensa Izquierdo</option>
+                            <option value="Defensa Central">Defensa Central</option>
+                            <option value="Defensa Derecho">Defensa Derecho</option>
+                            <option value="Lateral Izquierdo">Lateral Izquierdo</option>
+                            <option value="Lateral Derecho">Lateral Derecho</option>
+                            <option value="Mediocampista Central">Mediocampista Central</option>
+                            <option value="Mediocampista Ofensivo">Mediocampista Ofensivo</option>
+                            <option value="Mediocampista Creación">Mediocampista Creación</option>
+                            <option value="Deltantero Centro">Deltantero Centro</option>
+                            <option value="Deltantero Izquierdo">Deltantero Izquierdo</option>
+                            <option value="Deltantero Derecho">Deltantero Derecho</option>
                         </select></td>
                     </tr>
                     <tr>
