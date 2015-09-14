@@ -24,12 +24,12 @@
             <h1>Busqueda</h1>
             <h2><%
                 String mensaje;
+
                 if(request.getAttribute("Message")==null){
                     mensaje="Ingrese su busqueda";
                 }else{
                     mensaje=(String)request.getAttribute("Message");
                 }%><%=mensaje%></h2>
-
             <form method="post" action="BuscarServlet" enctype="multipart/form-data">
                 <table border="0">
                     <tr>
