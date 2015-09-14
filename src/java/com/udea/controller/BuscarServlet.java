@@ -100,7 +100,7 @@ public class BuscarServlet extends HttpServlet {
                 statement = conn.prepareStatement(sql);
 
                 statement.setString(1, apellido);
-                System.out.println("entro al else apellido nulo");
+                System.out.println("Nombre nulo");
                 
             } else if(nombre.length()>=1) {
                 //construyo el estamento SQL
@@ -108,16 +108,18 @@ public class BuscarServlet extends HttpServlet {
                 //Crei el prepareStatement SQL para enlazarlo con el POJO
                 statement = conn.prepareStatement(sql);
                 statement.setString(1, nombre);
-                System.out.println("entro al else nombre nulo");
+                System.out.println("Apellido Nulo");
             }else{
                 System.out.println("Entro Al Else");
-              String mensaje="Ingrese todos los datos";
+              String mensaje="No ha ingresado ningun campo";
               request.setAttribute("Message", mensaje);
               getServletContext().getRequestDispatcher("/buscar.jsp").forward(request, response);
             }
 
             //enviar el stamento para actualizar la BD  
             rs = statement.executeQuery();
+            System.out.println("Rs=");
+            System.out.println(rs);
             while (rs.next()) {
                 jug.setFirstName(rs.getString("first_name"));
                 jug.setLastName(rs.getString("last_name"));
