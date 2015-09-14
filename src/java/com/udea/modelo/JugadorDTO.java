@@ -16,6 +16,9 @@ public class JugadorDTO {
     private int edad;
     private String posicion;
     private String equipo;
+    private String FechaNam;
+    private String Nacionalidad;
+    
 
     public String getFechaNam() {
         return FechaNam;
@@ -32,8 +35,7 @@ public class JugadorDTO {
     public void setNacionalidad(String Nacionalidad) {
         this.Nacionalidad = Nacionalidad;
     }
-    private String FechaNam;
-    private String Nacionalidad;
+    
 
     public int getContact_id() {
         return contact_id;

@@ -65,6 +65,7 @@ public class BuscarServlet extends HttpServlet {
         Blob blob = null;
         byte[] data = null;
         ResultSet rs = null;
+        int entro=0;
         //Defino el input stream para el archivo que subire
         OutputStream outputStream = null;
         //InputStream inputStream=null;
@@ -118,7 +119,11 @@ public class BuscarServlet extends HttpServlet {
 
             //enviar el stamento para actualizar la BD  
             rs = statement.executeQuery();
+            System.out.println("resultado de sql;");
+            System.out.println(rs);
+            
             while (rs.next()) {
+                entro=1;
                 jug.setFirstName(rs.getString("first_name"));
                 jug.setLastName(rs.getString("last_name"));
                 jug.setEdad(rs.getInt("edad"));
@@ -132,14 +137,19 @@ public class BuscarServlet extends HttpServlet {
 
                 String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
                 request.setAttribute("nombreFoto", nombreFoto);
-                String fullPath = getServletContext().getRealPath("'/'"+"WEB-INF").replace("'/'"+"WEB-INF", "/" + nombreFoto);
-                //byte[] archivo=rs.getBytes("photo");
+                String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);                //byte[] archivo=rs.getBytes("photo");
                 FileOutputStream salidaArchivo = new FileOutputStream(fullPath);
                 salidaArchivo.write(data);
                 salidaArchivo.close();
                 message = "";
 
             }
+            if (entro == 0){
+                String mensaje="Jugador no encontrado";
+                request.setAttribute("Message", mensaje);
+                getServletContext().getRequestDispatcher("/buscar.jsp").forward(request, response);
+            }
+            
         } catch (Exception e) {
             message = "ERROR: " + e.getMessage();
             e.printStackTrace();

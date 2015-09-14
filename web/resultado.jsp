@@ -35,31 +35,31 @@
              -webkit-border-radius: 0px 0px 10px 10px;
              border: 0px solid #000000;">
             <center>
-                <h3><%=request.getAttribute("first_name")%></h3>
+                <h3>Nombre: <%=request.getAttribute("first_name")%></h3>
             </center>
             <hr/>
             <center>
-                <h3><%=request.getAttribute("last_name")%></h3>
+                <h3>Apellido: <%=request.getAttribute("last_name")%></h3>
             </center>
             <hr/>
             <center>
-                <h3><%=request.getAttribute("edad")%></h3>
+                <h3>Edad: <%=request.getAttribute("edad")%></h3>
             </center>
             <hr/>
             <center>
-                <h3><%=request.getAttribute("posicion")%></h3>
+                <h3>Posicion: <%=request.getAttribute("posicion")%></h3>
             </center>
             <hr/>            
             <center>
-                <h3><%=request.getAttribute("fecha_nacimiento")%></h3>
+                <h3>Fecha de nacimiento: <%=request.getAttribute("fecha_nacimiento")%></h3>
             </center>
             <hr/>            
             <center>
-                <h3><%=request.getAttribute("nacionalidad")%></h3>
+                <h3>Nacionalidad : <%=request.getAttribute("nacionalidad")%></h3>
             </center>
             <hr/>
             <center>
-                <h3><%=request.getAttribute("equipo")%></h3>
+                <h3>Equipo: <%=request.getAttribute("equipo")%></h3>
             </center></div>
     </div>
 
