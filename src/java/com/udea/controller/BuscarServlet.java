@@ -135,7 +135,13 @@ public class BuscarServlet extends HttpServlet {
 
                 String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
                 request.setAttribute("nombreFoto", nombreFoto);
-                String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);                //byte[] archivo=rs.getBytes("photo");
+                // fullPath para linux --Comentar cuando se este trabajando en windows
+                String fullPath = getServletContext().getRealPath("/WEB-INF").replace("/WEB-INF", "/" + nombreFoto); 
+                System.out.println(fullPath);
+                // fullPath para windows --Comentar cuando se este trabajando en linux
+                //String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);                //byte[] archivo=rs.getBytes("photo");
+               
+                
                 FileOutputStream salidaArchivo = new FileOutputStream(fullPath);
                 salidaArchivo.write(data);
                 salidaArchivo.close();

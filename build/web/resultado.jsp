@@ -27,7 +27,7 @@
              -webkit-border-radius: 0px 0px 10px 10px;
                  border: 0px solid #000000;">
                    <center>
-                       <h3><img src="<%=request.getAttribute("nombreFoto")%>" style="border-radius:50%;height:30;width:40%;margin-top:30%;"/></h3>
+                       <h3><a href="<%=request.getAttribute("nombreFoto")%>"><img src="<%=request.getAttribute("nombreFoto")%>" style="border-radius:50%;height:30;width:40%;margin-top:30%;"/></a></h3>
         </center>
         </div>
         <div style="float:right;width:65%;height:90%;border:3px solid #00FFFF;border-radius: 0px 0px 10px 10px;
