@@ -34,12 +34,16 @@
             <th>Posicion</th>
             <th>Equipo</th>
             <th>Fecha De nacimiento</th>
+            <th>Foto</th>
         </tr>
     </thead>
         <% Vector v=new Vector();
              v=(Vector)request.getAttribute("jugadores");
+             Vector f = new Vector();
+             f=(Vector)request.getAttribute("fotos");
+             String foto ="";
         for(int i=0;i<=v.size()-1;i++){
-
+            foto =(String)f.elementAt(i);
             JugadorDTO jugador=(JugadorDTO)v.elementAt(i);
            %>
            
@@ -52,6 +56,7 @@
               <td><%=jugador.getPosicion()%></td>
               <td><%=jugador.getEquipo() %></td>
                <td><%=jugador.getFechaNam()%></td>
+               <td><img src="<%=foto%>" width='250' height='180' /></td>
            
         </tr>
            

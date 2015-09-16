@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import javax.servlet.http.Part;
  *
  * @author elias.quintero
  */
+@MultipartConfig
 @WebServlet(name = "ListarDBServlet", urlPatterns = {"/ListarDBServlet"})
 public class ListarDBServlet extends HttpServlet {
 
@@ -50,10 +52,15 @@ public class ListarDBServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
        
         ResultSet rs = null;
-     
+         Blob blob = null;
+        byte[] data = null;
+        OutputStream outputStream = null;
+         //Obtengo la parte del archivo a cargar en la peticion (multipart)
+        Part filePart = request.getPart("photo");
         Connection conn = null;//objeto para conectar con la BD
  
         Vector jugadores = new Vector();
+        Vector fotos = new Vector();
         try {
             //conecto a la BD
             DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
@@ -80,13 +87,23 @@ public class ListarDBServlet extends HttpServlet {
                 jug.setNacionalidad(rs.getString("nacionalidad"));
                 
                 
+                blob = rs.getBlob("photo");
+                data = blob.getBytes(1, (int) blob.length());
+
+                String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
                 
+                // fullPath para linux --Comentar cuando se este trabajando en windows
+                String fullPath = getServletContext().getRealPath("/WEB-INF").replace("/WEB-INF", "/" + nombreFoto); 
+                System.out.println(fullPath);
+                // fullPath para windows --Comentar cuando se este trabajando en linux
+                //String fullPath = getServletContext().getRealPath("\\WEB-INF").replace("\\WEB-INF", "\\" + nombreFoto);                //byte[] archivo=rs.getBytes("photo");
+               
                 
+                FileOutputStream salidaArchivo = new FileOutputStream(fullPath);
+                salidaArchivo.write(data);
+                salidaArchivo.close();
                 
-                
-                
-                
-                
+                fotos.addElement(nombreFoto);
                 jugadores.addElement(jug);
 
             }
@@ -106,6 +123,7 @@ public class ListarDBServlet extends HttpServlet {
             //coloco elmensaje en el ambito del request
             
             request.setAttribute("jugadores",jugadores);
+            request.setAttribute("fotos",fotos);
             //reenvio a la vista jsp del mensaje
             getServletContext().getRequestDispatcher("/ResultadoDB.jsp").forward(request, response);
         }

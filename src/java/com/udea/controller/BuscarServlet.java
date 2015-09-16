@@ -119,8 +119,9 @@ public class BuscarServlet extends HttpServlet {
 
             //enviar el stamento para actualizar la BD  
             rs = statement.executeQuery();
-
+          
             while (rs.next()) {
+                
                 entro=1;
                 jug.setFirstName(rs.getString("first_name"));
                 jug.setLastName(rs.getString("last_name"));
@@ -135,6 +136,7 @@ public class BuscarServlet extends HttpServlet {
 
                 String nombreFoto = "foto" + ((int) (Math.random() * 100000)) + ".jpg";
                 request.setAttribute("nombreFoto", nombreFoto);
+                
                 // fullPath para linux --Comentar cuando se este trabajando en windows
                 String fullPath = getServletContext().getRealPath("/WEB-INF").replace("/WEB-INF", "/" + nombreFoto); 
                 System.out.println(fullPath);
