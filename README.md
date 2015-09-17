@@ -1,1 +1,1 @@
-# lab1ArqSoft
+# Laboratorio 1 de Arquitectura del Software
